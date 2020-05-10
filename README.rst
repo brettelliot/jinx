@@ -17,7 +17,9 @@ Install
 
 From PyPI with pip (latest stable release):
 
-``$ pip3 install jinx``
+.. code:: bash
+
+    $ pip3 install jinx
 
 From development repository (dev version):
 
@@ -50,88 +52,100 @@ environment variable. The following versions are currently supported:
 Usage
 -----
 
-The ``Stock`` provides access to most endpoints, and can be instantiated with a symbols:
+The ``Stock`` provides access to most endpoints, and can be instantiated with a symbol:
 
 .. code-block:: python
 
-    from jinx.stock import Stock
+        >>> from jinx.stock import Stock
+        >>> import json
+        >>> aapl = Stock('aapl')
+        >>> aapl_bs = aapl.get_balance_sheet()
+        >>> print (json.dumps(aapl_bs, sort_keys=True, indent=4))
+        {
+            "balancesheet": [
+                {
+                    "accountsPayable": 33018121739,
+                    "capitalSurplus": null,
+                    "commonStock": 4496599335,
+                    "currency": "USD",
+                    "currentAssets": 144612403174,
+                    "currentCash": 30172961915,
+                    "currentLongTermDebt": 10881096169,
+                    "fiscalDate": "2020-03-22",
+                    "goodwill": null,
+                    "intangibleAssets": null,
+                    "inventory": 3498769850,
+                    "longTermDebt": 101705344870,
+                    "longTermInvestments": 102909761019,
+                    "minorityInterest": 0,
+                    "netTangibleAssets": 78477657414,
+                    "otherAssets": 33597449752,
+                    "otherCurrentAssets": 14914938794,
+                    "otherCurrentLiabilities": 42539380185,
+                    "otherLiabilities": 21528724378,
+                    "propertyPlantEquipment": 44907661177,
+                    "receivables": 15986486509,
+                    "reportDate": "2020-03-20",
+                    "retainedEarnings": 33344074958,
+                    "shareholderEquity": 80276696449,
+                    "shortTermInvestments": 67226412874,
+                    "totalAssets": 325814813094,
+                    "totalCurrentLiabilities": 96306268790,
+                    "totalLiabilities": 245573706847,
+                    "treasuryStock": null
+                }
+            ],
+            "symbol": "AAPL"
+        }
 
-    aapl = Stock("AAPL")
-    json_response = aapl.get_balance_sheet()
-
-.. code-block:: json
-
-        {'balancesheet': [{'accountsPayable': 33112195828,
-                   'capitalSurplus': None,
-                   'commonStock': 4346699683,
-                   'currency': 'USD',
-                   'currentAssets': 147028486806,
-                   'currentCash': 30036272090,
-                   'currentLongTermDebt': 10665375192,
-                   'fiscalDate': '2020-03-13',
-                   'goodwill': None,
-                   'intangibleAssets': None,
-                   'inventory': 3434799069,
-                   'longTermDebt': 99355148492,
-                   'longTermInvestments': 102046592090,
-                   'minorityInterest': 0,
-                   'netTangibleAssets': 80858422273,
-                   'otherAssets': 33551375884,
-                   'otherCurrentAssets': 15195434566,
-                   'otherCurrentLiabilities': 42099581013,
-                   'otherLiabilities': 21024755946,
-                   'propertyPlantEquipment': 45201912330,
-                   'receivables': 16017799523,
-                   'reportDate': '2020-03-21',
-                   'retainedEarnings': 34747214319,
-                   'shareholderEquity': 78782314016,
-                   'shortTermInvestments': 68349274002,
-                   'totalAssets': 334142170974,
-                   'totalCurrentLiabilities': 97157853580,
-                   'totalLiabilities': 244626756872,
-                   'treasuryStock': None}],
-        'symbol': 'AAPL'}
+You can get quarterly or annual data, and specify the number of quarters or years to return:
 
 .. code-block:: python
 
-        json_response = aapl.get_cash_flow(period='annual', last=2)
-
-.. code-block:: json
-
-        {'cashflow': [{'capitalExpenditures': -10770004070,
-               'cashChange': 24863353536,
-               'cashFlow': 72204258940,
-               'cashFlowFinancing': -92351448945,
-               'changesInInventories': -300397389,
-               'changesInReceivables': 264718035,
-               'currency': 'USD',
-               'depreciation': 13116848608,
-               'dividendsPaid': -14503573256,
-               'exchangeRateEffect': None,
-               'fiscalDate': '2019-09-25',
-               'investingActivityOther': -1109360682,
-               'investments': 59220343455,
-               'netBorrowings': -7894824202,
-               'netIncome': 56633880619,
-               'otherFinancingCashFlows': -3061111157,
-               'reportDate': '2019-09-20',
-               'totalInvestingCashFlows': 47753822021},
-              {'capitalExpenditures': -13939233622,
-               'cashChange': 5790071745,
-               'cashFlow': 80050783491,
-               'cashFlowFinancing': -91406242732,
-               'changesInInventories': 829147940,
-               'changesInReceivables': -5555305538,
-               'currency': 'USD',
-               'depreciation': 11135992882,
-               'dividendsPaid': -14260530107,
-               'exchangeRateEffect': None,
-               'fiscalDate': '2018-09-16',
-               'investingActivityOther': -764234805,
-               'investments': 32104361274,
-               'netBorrowings': 435808335,
-               'netIncome': 60452479349,
-               'otherFinancingCashFlows': -2566982008,
-               'reportDate': '2018-09-28',
-               'totalInvestingCashFlows': 16068508327}],
-        'symbol': 'AAPL'}
+        >>> aapl_cf = aapl.get_cash_flow(period='annual', last=2)
+        >>> print(json.dumps(aapl_cf, sort_keys=True, indent=4))
+        {
+            "cashflow": [
+                {
+                    "capitalExpenditures": -10548387365,
+                    "cashChange": 25028153575,
+                    "cashFlow": 71074668596,
+                    "cashFlowFinancing": -94932114603,
+                    "changesInInventories": -291703549,
+                    "changesInReceivables": 265402510,
+                    "currency": "USD",
+                    "depreciation": 12783029260,
+                    "dividendsPaid": -14346206432,
+                    "exchangeRateEffect": null,
+                    "fiscalDate": "2019-09-27",
+                    "investingActivityOther": -1109270269,
+                    "investments": 58502395335,
+                    "netBorrowings": -7868025705,
+                    "netIncome": 57051020492,
+                    "otherFinancingCashFlows": -3031452489,
+                    "reportDate": "2019-09-19",
+                    "totalInvestingCashFlows": 47952023359
+                },
+                {
+                    "capitalExpenditures": -13632715598,
+                    "cashChange": 5844075612,
+                    "cashFlow": 80737644970,
+                    "cashFlowFinancing": -89912917113,
+                    "changesInInventories": 830556162,
+                    "changesInReceivables": -5367160638,
+                    "currency": "USD",
+                    "depreciation": 11177076598,
+                    "dividendsPaid": -14268054186,
+                    "exchangeRateEffect": null,
+                    "fiscalDate": "2018-09-24",
+                    "investingActivityOther": -775705637,
+                    "investments": 32259623849,
+                    "netBorrowings": 436890215,
+                    "netIncome": 62431044712,
+                    "otherFinancingCashFlows": -2573213034,
+                    "reportDate": "2018-09-27",
+                    "totalInvestingCashFlows": 16703213665
+                }
+            ],
+            "symbol": "AAPL"
+        }

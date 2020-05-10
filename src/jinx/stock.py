@@ -6,8 +6,8 @@ from jinx.exceptions import JinxSymbolError
 logger = logging.getLogger(__name__)
 
 class Stock(_JinxBase):
-    """
-    Base class for obtaining data from the Stock endpoints of IEX.
+    """Base class for obtaining data abouot a stock from IEX.
+
     Attributes
     ----------
     symbol: str
@@ -27,22 +27,23 @@ class Stock(_JinxBase):
         params = {}
         return self._execute_iex_json_request(path=path, params=params)
 
-    def get_cash_flow(self, period='quarterly', last=1):
-        """Cash Flow
-        Pulls cash flow data. Available quarterly or annually.
+    def get_cash_flow(self, period='quarter', last=1):
+        """Pulls cash flow data. Available quarterly or annually.
+
         Reference: https://iexcloud.io/docs/api/#cash-flow
+
         Data Weighting: ``1000`` per symbol per period
 
         Parameters
         ----------
-        period: str, default 'quarterly', optional
+        period: str, default ``quarter``, optional
             Allows you to specify annual or quarterly cash flows. Defaults to
-            quarterly. Values should be annual or quarter.
+            quarterly. Values should be ``annual`` or ``quarter``.
 
-        last: int, default 1, optional
+        last: int, default ``1``, optional
             Specify the number of quarters or years to return.
             One quarter is returned by default. You can specify up to 12
-            quarters with quarter, or up to 4 years with annual.
+            quarters with ``quarter``, or up to 4 years with ``annual``.
 
         Returns
         ------
@@ -53,22 +54,23 @@ class Stock(_JinxBase):
         params = {'period':period, 'last':last}
         return self._execute_iex_json_request(path=path, params=params)
 
-    def get_balance_sheet(self, period='quarterly', last=1):
-        """Balance Sheet
-        Pulls balance sheet data. Available quarterly or annually.
+    def get_balance_sheet(self, period='quarter', last=1):
+        """Pulls balance sheet data. Available quarterly or annually.
+
         Reference: https://iexcloud.io/docs/api/#balance-sheet
+
         Data Weighting: ``3000`` per symbol per period
 
         Parameters
         ----------
-        period: str, default 'quarterly', optional
+        period: str, default ``quarter``, optional
             Allows you to specify annual or quarterly cash flows. Defaults to
-            quarterly. Values should be annual or quarter.
+            quarterly. Values should be ``annual`` or ``quarter``.
 
-        last: int, default 1, optional
+        last: int, default ``1``, optional
             Specify the number of quarters or years to return.
             One quarter is returned by default. You can specify up to 12
-            quarters with quarter, or up to 4 years with annual.
+            quarters with ``quarter``, or up to 4 years with ``annual``.
 
         Returns
         ------
@@ -79,22 +81,23 @@ class Stock(_JinxBase):
         params = {'period':period, 'last':last}
         return self._execute_iex_json_request(path=path, params=params)
 
-    def get_income_statement(self, period='quarterly', last=1):
-        """Income Statement
-        Pulls income statement data. Available quarterly or annually.
+    def get_income_statement(self, period='quarter', last=1):
+        """Pulls income statement data. Available quarterly or annually.
+
         Reference: https://iexcloud.io/docs/api/#income-statement
+
         Data Weighting: ``1000`` per symbol per period
 
         Parameters
         ----------
-        period: str, default 'quarterly', optional
+        period: str, default ``quarter``, optional
             Allows you to specify annual or quarterly cash flows. Defaults to
             quarterly. Values should be annual or quarter.
 
-        last: int, default 1, optional
+        last: int, default ``1``, optional
             Specify the number of quarters or years to return.
             One quarter is returned by default. You can specify up to 12
-            quarters with quarter, or up to 4 years with annual.
+            quarters with ``quarter``, or up to 4 years with ``annual``.
 
         Returns
         ------
@@ -106,6 +109,18 @@ class Stock(_JinxBase):
         return self._execute_iex_json_request(path=path, params=params)
 
     def get_latest_financial_report_date(self):
+        """Gets report date of latest financial report using data points.
+
+        Reference: https://iexcloud.io/docs/api/#data-points
+
+        Data Weighting: 1
+
+        Returns
+        ------
+        dict
+            Dictionary with one key: ``latestFinancialReportDate``
+        """
+
         path = "/data-points/{}/LATEST-FINANCIAL-REPORT-DATE".format(
             self.symbol)
         params = {}
