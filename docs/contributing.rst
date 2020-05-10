@@ -77,10 +77,10 @@ Feature development workflow consists of these steps:
     git push origin master
 
     # 8a. optional: tag important things, such as releases
-    git tag 1.0.0
+    git tag v1.0.0
 
     # 8b. push single tag
-    git push origin 1.0.0
+    git push origin v1.0.0
 
     # 8c. Push all tags
     git push origin --tags
