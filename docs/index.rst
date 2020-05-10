@@ -33,6 +33,8 @@ Contents
    Authors <authors>
    Changelog <changelog>
    Module Reference <api/modules>
+   Contributing <contributing>
+   References <references>
 
 
 Indices and tables
@@ -57,3 +59,5 @@ Indices and tables
 .. _Google style: https://github.com/google/styleguide/blob/gh-pages/pyguide.md#38-comments-and-docstrings
 .. _NumPy style: https://numpydoc.readthedocs.io/en/latest/format.html
 .. _classical style: http://www.sphinx-doc.org/en/stable/domains.html#info-field-lists
+
+.. include:: ../README.rst
