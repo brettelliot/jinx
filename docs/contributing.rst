@@ -27,24 +27,6 @@ Test the docs with::
 
     python setup.py doctest
 
-Building a release
-------------------
-First add a tag:
-
-.. code-block:: bash
-
-    git tag v1.0.3
-    git push origin v1.0.3
-
-In order to build a source, binary or wheel distribution, just run
-``python setup.py sdist``, ``python setup.py bdist`` or ``python setup.py bdist_wheel`` (recommended).
-
-Run ``python setup.py --version`` to retrieve the current PEP440-compliant version. This version will be used when building a package and is also accessible through my_project.__version__. If you want to upload to PyPI you have to tag the current commit before uploading since PyPI does not allow local versions, e.g. 0.0.post0.dev5+gc5da6ad, for practical reasons.
-
-This project has been set up using PyScaffold 3.2.3. For details and usage
-information on PyScaffold see https://pyscaffold.org/.
-
-
 A simple rebase git workflow
 ----------------------------
 Feature development workflow consists of these steps:
@@ -108,3 +90,50 @@ Feature development workflow consists of these steps:
 
     # 9b. Replay your changes on top of your feature branch
     git pull
+
+Building a release
+------------------
+.. code-block:: bash
+
+    # First add a tag
+    git tag v1.0.3
+    git push origin v1.0.3
+
+    # Check the version
+    python setup.py --version
+
+    # remove any existinig distributon:
+    rm -rf dist/
+
+    # Build wheel distribution, just run:
+    python setup.py bdist_wheel
+
+    # Upload to test.pypi.org:
+    twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+    # Test it. First, make a new test directory somewhere outside this project
+    # Then make a virtual env for it
+    # Then finally install from test.pypi.org:
+    python3 -m pip install --no-cache-dir --extra-index-url https://test.pypi.org/simple/ jinx
+
+    # Run python from the command line and import the package:
+    python
+    >>> from jinx.stock import Stock
+    
+    # After you've tested it, remove the test dir and begin the upload to pypi:
+    twine upload dist/*
+
+    # Now test the real deal... Make another test directory, make a virtual env,
+    # and install from pip
+    pip install --no-cache-dir jinx
+
+    # Then run python import the package, and test it.
+    python
+    >>> from jinx.stock import Stock
+
+PyScaffold
+----------
+This project has been set up using PyScaffold 3.2.3. For details and usage
+information on PyScaffold see https://pyscaffold.org/.
+
+
