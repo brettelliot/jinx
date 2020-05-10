@@ -29,6 +29,13 @@ Test the docs with::
 
 Building a release
 ------------------
+First add a tag:
+
+.. code-block:: bash
+
+    git tag v1.0.3
+    git push origin v1.0.3
+
 In order to build a source, binary or wheel distribution, just run
 ``python setup.py sdist``, ``python setup.py bdist`` or ``python setup.py bdist_wheel`` (recommended).
 
