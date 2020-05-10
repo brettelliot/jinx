@@ -14,7 +14,7 @@ Testing::
     python setup.py test
 
 Building the docs and packages
------------------
+------------------------------
 First make sure sphinx is installed::
 
     pip install sphinx wheel twine

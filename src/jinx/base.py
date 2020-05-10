@@ -6,13 +6,14 @@ from jinx.exceptions import JinxAuthenticationError
 from jinx.exceptions import JinxQueryError
 from jinx.exceptions import JinxSymbolError
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 class _JinxBase(object):
     """
     Base class for retrieving equities information from IEX Cloud.
     Conducts query operations including preparing and executing queries from
     the API.
+
     Attributes
     ----------
     retry_count: int, default 3, optional
@@ -67,10 +68,12 @@ class _JinxBase(object):
 
     def _validate_response(self, response):
         """ Ensures response from IEX server is valid.
+
         Parameters
         ----------
         response: requests.response
             A requests.response object
+
         Raises
         ------
         JinxSymbolError
@@ -82,7 +85,7 @@ class _JinxBase(object):
             msg = response.headers[key]
         else:
             msg = "N/A"
-        logger.info("MESSAGES USED: %s" % msg)
+        log.info("MESSAGES USED: %s" % msg)
 
         if response.text == "Unknown symbol":
             raise JinxSymnbolError(response.status_code, response.text)
@@ -92,6 +95,7 @@ class _JinxBase(object):
         Given a path, execute HTTP request from IEX server. If request is
         unsuccessful, attempt is made self.retry_count times with pause of
         self.pause in between.
+
         Parameters
         ----------
         path: str
@@ -99,10 +103,12 @@ class _JinxBase(object):
             an IEX base URL and version. For example: "/stock/AAPL/financials/"
         params: dict
             A dictionary of query params to be added to the endpoint path
+
         Returns
         -------
         text: str
             Content of requests.response.text
+
         Raises
         ------
         JinxQueryError
@@ -112,8 +118,8 @@ class _JinxBase(object):
         params["token"] = self.token
         for _ in range(self.retry_count + 1):
             response = self.session.get(url=url, params=params)
-            logger.debug("REQUEST: %s" % response.request.url)
-            logger.debug("RESPONSE: %s" % response.status_code)
+            log.debug("REQUEST: %s" % response.request.url)
+            log.debug("RESPONSE: %s" % response.status_code)
             if response.status_code == requests.codes.ok:
                 self._validate_response(response)
                 return response.text
@@ -125,6 +131,7 @@ class _JinxBase(object):
         Given a path, execute HTTP request from IEX server. If request is
         unsuccessful, attempt is made self.retry_count times with pause of
         self.pause in between.
+
         Parameters
         ----------
         path: str
@@ -132,10 +139,12 @@ class _JinxBase(object):
             an IEX base URL and version. For example: "/stock/AAPL/financials/"
         params: dict
             A dictionary of query params to be added to the endpoint path
+
         Returns
         -------
         json_respnose: dict
             Dictionary containing validate json from the response
+
         Raises
         ------
         JinxQueryError
@@ -145,8 +154,8 @@ class _JinxBase(object):
         params["token"] = self.token
         for _ in range(self.retry_count + 1):
             response = self.session.get(url=url, params=params)
-            logger.debug("REQUEST: %s" % response.request.url)
-            logger.debug("RESPONSE: %s" % response.status_code)
+            log.debug("REQUEST: %s" % response.request.url)
+            log.debug("RESPONSE: %s" % response.status_code)
             if response.status_code == requests.codes.ok:
                 self._validate_response(response)
                 try:

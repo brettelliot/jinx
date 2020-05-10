@@ -3,7 +3,7 @@ import requests
 from jinx.base import _JinxBase
 from jinx.exceptions import JinxSymbolError
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 class Stock(_JinxBase):
     """Base class for obtaining data abouot a stock from IEX.
@@ -19,10 +19,21 @@ class Stock(_JinxBase):
         if isinstance(symbol, str):
             self.symbol =symbol
         else:
-            raise JinxSymbolError("Please input a symbol or list of symbols")
+            raise JinxSymbolError("Please input a symbol.")
         self.symbol = symbol
 
     def get_company(self):
+        """Gets company data about the stock.
+
+        Reference: https://iexcloud.io/docs/api/#company
+
+        Data Weighting: ``1`` per symbol
+
+        Returns
+        -------
+        dict
+            Company data
+        """
         path = "/stock/{}/company".format(self.symbol)
         params = {}
         return self._execute_iex_json_request(path=path, params=params)
@@ -113,7 +124,7 @@ class Stock(_JinxBase):
 
         Reference: https://iexcloud.io/docs/api/#data-points
 
-        Data Weighting: 1
+        Data Weighting: ``1``
 
         Returns
         ------
@@ -126,5 +137,6 @@ class Stock(_JinxBase):
         params = {}
 
         text = self._execute_iex_text_request(path=path, params=params)
-        result_dict = {'latestFinancialReportDate':text}
+        stripped_text = text.replace('"',"")
+        result_dict = {'latestFinancialReportDate':stripped_text}
         return result_dict
