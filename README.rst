@@ -2,8 +2,9 @@
 jinx
 ====
 
-A python package for getting JSON objects from the IEX Cloud API.
+``jinx`` the Json INvestor eXchange package is a python SDK for getting financial data from IEX (the Investor Exchange) as JSON objects using the IEX Cloud API.
 
+For more documentation, please see http://jinx.readthedocs.io.
 
 Description
 -----------
